@@ -4,7 +4,7 @@ import interfaces.Messages;
 public class TextChannel implements Messages {
 	private int channelId;
 	private String channelName;
-	private User user;
+	protected User user;
 	
 	public TextChannel(int chId, String chName, int usId, String usName) {
 		user = new User(usId, usName);
