@@ -1,3 +1,8 @@
+/**
+*	@author Elia Renzoni
+*	@date 04/11/2023
+*/
+
 package banksystem;
 
 public class CartaDiCreditoCashBack extends CartaDiCreditoStandard {
@@ -6,7 +11,10 @@ public class CartaDiCreditoCashBack extends CartaDiCreditoStandard {
 	public CartaDiCreditoCashBack(int numero, String titolare, double limite, int numeroConto, String titolareConto, double saldo) {
 		super(numero, titolare, limite, numeroConto, titolareConto, saldo);
 	}
-	
+
+	/**
+ 	*	@brief effettua il versamento e inserisce nel conto il cash back 
+  	*/
 	public double calcoloCashBack(double importo) {
 		double importoCash = 0.0;
 		if (super.controllaLimitePagamenti()) { 
