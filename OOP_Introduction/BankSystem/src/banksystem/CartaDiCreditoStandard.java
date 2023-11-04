@@ -1,3 +1,8 @@
+/**
+*	@author Elia Renzoni
+*	@date 04/11/2023
+*/
+
 package banksystem;
 
 public class CartaDiCreditoStandard extends CartaDiCredito {
