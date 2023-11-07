@@ -11,7 +11,7 @@ public class OrdineDiRitiro extends Ordine {
 	private Cliente cliente;
 	private Magazzino magazzino;
 	
-	public OrdineDiRitiro(int idProdotto, String nomeProdotto, int qntProdotto, int prodotti) {
+	public OrdineDiRitiro(int idProdotto, String nomeProdotto, int qntProdotto) {
 		
 	}
 
@@ -21,11 +21,6 @@ public class OrdineDiRitiro extends Ordine {
 		return null;
 	}
 
-	@Override
-	public void modificaOrdine() {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void cancellaOrdine() {
@@ -37,6 +32,12 @@ public class OrdineDiRitiro extends Ordine {
 	public String tracciamentoOrdine() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void modificaOrdine(int idOrdine, Date dataCreazione) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
