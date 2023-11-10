@@ -1,11 +1,13 @@
 package logistic.platform;
 
 import java.util.Date;
+import java.util.Random;
 
 public class OrdineDiRitiro extends Ordine {
 	private int idOrdine;
 	private Date dataCreazione;
-	private String dataConsegna;
+	private Random rdn;
+	private Date dataConsegna;
 	private String statoOrdine;
 	private Prodotto prodotto;
 	private Cliente cliente;
@@ -15,31 +17,46 @@ public class OrdineDiRitiro extends Ordine {
 		this.prodotto = new Prodotto(idProdotto, nomeProdotto, qntProdotto);
 		this.cliente = new Cliente();
 		this.magazzino = new MagazzinoRitiri();
+		this.rdn = new Random();
+		this.idOrdine = this.rdn.nextInt();
+		this.dataCreazione = new Date();
+		this.dataConsegna = new Date();
 	}
 
 	@Override
 	public String creaNuovoOrdine() {
-		// TODO Auto-generated method stub
-		return null;
+		String template = null;
+		this.statoOrdine = super.CREATO;
+		this.magazzino.aumentaProdottiRitirati(1);
+		template = "Nome :" + this.prodotto.getNomeProdotto() + "\n"
+					+ "Id : " + this.prodotto.getIdProdotto() + "\n"
+					+ "Quantita del Prodotto :" + this.prodotto.getQntProdotto()  + "\n" 
+					+ "Id ordine :" + this.idOrdine + "\n"
+					+ "Data Creazione : " + this.dataCreazione + "\n"
+					+ "Data Consegna : " + this.dataConsegna;
+		return template;
 	}
 
 
 	@Override
 	public void cancellaOrdine() {
-		// TODO Auto-generated method stub
-		
+		this.magazzino.diminuisciProdottiRitirati(1);
+		this.statoOrdine = super.CANCELLATO;
+		this.idOrdine = -1;
+		this.prodotto.setNomeProdotto(null);
+		this.prodotto.setQuantitaProdotto(0);
+		this.prodotto.setQuantitaProdotto(0);
 	}
 
 	@Override
 	public String tracciamentoOrdine() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.statoOrdine;
 	}
 
 	@Override
 	public void modificaOrdine(int idOrdine, Date dataCreazione) {
-		// TODO Auto-generated method stub
-		
+		this.idOrdine = idOrdine;
+		this.dataCreazione = dataCreazione;
 	}
 
 }

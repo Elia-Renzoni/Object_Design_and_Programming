@@ -9,7 +9,7 @@ public class MagazzinoConsegne extends Magazzino {
 		super.prodottiConsegnati += aumento;
 	}
 	
-	public void diminuisciProdottiConsegneti(int diminuzione) {
+	public void diminuisciProdottiConsegnati(int diminuzione) {
 		super.prodottiConsegnati -= diminuzione;
 	}
 }

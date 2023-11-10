@@ -3,8 +3,8 @@ package logistic.platform;
 import java.util.Date;
 
 public abstract class Ordine {
-	private static final String CREATO = "CREATO";
-	private static final String CONSEGNATO = "CONSEGNATO";
+	protected static final String CREATO = "CREATO";
+	protected static final String CANCELLATO = "CANCELLATO";
 	
 	public abstract String creaNuovoOrdine();
 	public abstract void modificaOrdine(int idOrdine, Date dataCreazione);
