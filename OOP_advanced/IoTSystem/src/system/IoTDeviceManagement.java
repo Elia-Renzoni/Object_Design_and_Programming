@@ -16,7 +16,7 @@ public class IoTDeviceManagement <Integer, E> {
 	public void addElement(Integer deviceId, E device) {
 		this.iotDevices.put(deviceId, device);
 	}
-	// TODO notify all sensor if some sensor make important changes
+	
 	public void notifyDevices() {
 		while (this.iterator.hasNext()) {
 			Map.Entry<Integer, E> value = this.iterator.next();
