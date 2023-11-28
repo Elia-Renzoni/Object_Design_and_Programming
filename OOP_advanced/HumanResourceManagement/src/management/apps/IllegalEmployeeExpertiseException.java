@@ -8,6 +8,7 @@ public class IllegalEmployeeExpertiseException extends Exception {
 	private String message;
 	
 	public IllegalEmployeeExpertiseException() {
+		super();
 		this.message = "Esperienze errate";
 	}
 }
