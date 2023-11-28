@@ -8,6 +8,7 @@ public class IllegalEmployeeResposabilityException extends Exception {
 	private String message;
 	
 	public IllegalEmployeeResposabilityException() {
+		super();
 		this.message = "Ruoli non giusti";
 	}
 }
