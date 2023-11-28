@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Project <E extends Manager> {
+public class Project <E extends Employee> {
 	private HashMap<String, String> team;
 	private List<String> hardSkillsInvolved;
 	

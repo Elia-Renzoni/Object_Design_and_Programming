@@ -8,6 +8,7 @@ public abstract class Employee {
 	private String surname;
 	private List<String> technicalExpertise;
 	private List<String> softSkills;
+	private String responsability = null;
 	
 	public Employee(String name, String surname) {
 		this.name = name;
@@ -52,6 +53,10 @@ public abstract class Employee {
 	
 	public List<?> getSoftSkills() {
 		return this.softSkills;
+	}
+	
+	public String getResponsability() {
+		return this.responsability;
 	}
 	
 }
