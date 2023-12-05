@@ -1,14 +1,17 @@
 package monitoring.observers;
 
+import javax.swing.JLabel;
+
 import monitoring.TrafficUpdate;
 import monitoring.interfaces.TrafficObserver;
 
 public class Square implements TrafficObserver {
 
+	private TrafficGUI t = new TrafficGUI();
 	@Override
 	public void notify(TrafficUpdate event) {
-		// TODO Auto-generated method stub
-		
+		JLabel l = t.getLabel();
+		l.setText(event.getCityArea());
 	}
 
 }
