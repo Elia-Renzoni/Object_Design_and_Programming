@@ -1,6 +1,6 @@
 package sport.centre.management;
 
-public class Pair <Instructor, Athlete>{
+public class Pair <Instructor, Athlete> {
 	private Instructor instructorGenerality;
 	private Athlete athleteGenerality;
 	
