@@ -22,8 +22,7 @@ public class User {
 			at3.addSport(at3.new Sport("Muay Thai"));
 			at3.addSport(at3.new Sport("BJJ"));
 		} catch (NullGeneralityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println(e);
 		}
 		
 		Instructor ins = new Instructor("Henry", "Cejudo");
