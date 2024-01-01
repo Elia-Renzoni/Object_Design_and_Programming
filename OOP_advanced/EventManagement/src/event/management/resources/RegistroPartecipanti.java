@@ -1,6 +1,8 @@
 package event.management.resources;
 
+import java.util.Collection;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -22,10 +24,23 @@ public class RegistroPartecipanti<E extends Partecipante> {
 		System.out.println("Nuovo Partecipante : " + partecipante.descrizionePartecipante());
 	}
 	
-	public boolean trovaEventiPerParolaChiave(String paroleChiave) {
-		final boolean result = this.partecipanti.stream()
-				.anyMatch(partecipante -> partecipante.getEventiPreferiti().stream()
-						.anyMatch(evento -> evento.equals(paroleChiave)));
-		return result;
+	
+	public static class RegistroEventiPartecipanti<E extends Partecipante> extends RegistroPartecipanti { 
+		private HashMap<Evento, List<Optional<E>>> tracciaEventi;
+		
+		public RegistroEventiPartecipanti() {
+			super();
+			this.tracciaEventi = new HashMap<>();
+		}
+		
+		public void aggiungiCoppia(final Evento e, final List<Optional<E>> partecipanti) {
+			this.tracciaEventi.put(e, partecipanti);
+			System.out.println("Nuova coppia aggiunta");
+		}
+		
+		public List<Optional<E>> trovaPartecipantePerNomeEvento(final String nomeEvento) {
+			// TODO
+			return null;
+		}
 	}
 }
