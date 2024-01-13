@@ -1,72 +1,121 @@
-package appello6.ex;
-
-import static appello6.ex.Diet.Nutrient.*;
+package appello2.ex;
 
 import static org.junit.Assert.*;
 
-import java.util.Map;
+/**
+ * Implementare l'interfaccia ThesesManagement (Gestione Tesi) data tramite una classe 
+ * TheseManagementImpl con costruttore senza argomenti. Modella la gestione delle tesi
+ * di un corso universitario, con metodi per registrare studenti e loro tesi, 
+ * gestendo il ciclo di vita (da approvare/approvata/sottoposta/conclusa) della tesi.
+ * 
+ * Si osservi con attenzione il test seguente, che assieme ai commenti 
+ * dell'interfaccia ThesesManagement costituisce la definizione del problema da
+ * risolvere.
+ *
+ * Si tolga il commento al codice del test.
+ */
 
 public class Test {
 
-	/*
-	 * Implementare l'interfaccia Diet che realizza il concetto di dieta.
-	 * 
-	 * Come si può vedere nel metodo fillProduct qui sotto, ad una dieta si
-	 * associa innanzitutto una tabella nutrizionale. Ad esempio qui sotto si dice
-	 * che la pasta (100 grammi), fornisce 280 calorie di carboidrati, 70 di proteine
-	 * e 50 di grassi.
-	 * 
-	 * A quel punto la dieta ha un metodo per stabilire se una certa selezione di prodotti,
-	 * ad esempio 200 grammi di pasta, 300 di pollo, e 200 di grana (si veda la prima assert
-	 * di testStandard) è corretta rispetto alla tipologia di dieta in questione.
-	 * 
-	 * Vi sono poi due diete da relizzare:
-	 * - StandardDiet è una dieta in cui la selezione dei prodotti è ok se 
-	 * il totale delle calorie sta nel range [1500,2000]
-	 * - LowCarbDiet è una dieta in cui la selezione dei prodotti è ok se 
-	 *  il totale delle calorie sta nel range [1000,2000] e
-	 *  i carbs totali forniscono calorie <=300
-	 *  
-	 * Si noti che:
-	 * - 200 grammi di pasta portano 280*2=560 calorie di CARBS, 140 di PROT, 100 di FAT
-	 * - 300 grammi di pollo portano 10*3=30 calorie di CARBS, 180 di PROT, 90 di FAT
-	 * - 200 grammi di grana portano 0*2=0 calorie di CARBS, 400 di PROT, 400 di FAT
-	 * e quindi in totale: 590 di CARBS, 720 di PROT, 540 di FAT
-	 * Calcolarsi questa semplice mappa, da nutrienti a calorie complessive è probabilmente utile quindi.
-	 *  
-	 * La buona progettazione della soluzione, utilizzando patterns che portino a codice succinto 
-	 * che evita ripetizioni concorre al raggiungimento del punteggio pieno, così come l'utlizzo di meccanismi
-	 * avanzati quali lambda e stream.
-	 * 
-	 */
-	
-	
-	private void fillProducts(Diet diet) {
-		diet.addFood("pasta", Map.of(CARBS,280,PROTEINS,70,FAT,50)); // 400 calories overall
-		diet.addFood("riso", Map.of(CARBS,250,PROTEINS,70,FAT,30));  // 350 calories overall
-		diet.addFood("pollo", Map.of(CARBS,10,PROTEINS,60,FAT,30));  // 100 calories overall
-		diet.addFood("insalata", Map.of(CARBS,10,PROTEINS,3,FAT,2)); // 15 calories overall
-		diet.addFood("broccoli", Map.of(CARBS,20,PROTEINS,10,FAT,5));// 35 calories overall
-		diet.addFood("grana", Map.of(CARBS,0,PROTEINS,200,FAT,200)); // 400 calories overall
-	}
-	
-		
-	@org.junit.Test
-	public void testStandard() {
-		var diet = new StandardDiet();
-		this.fillProducts(diet);
-		assertTrue(diet.isValid(Map.of("pasta",200.0,"pollo",300.0,"grana",200.0))); // 800+300+800 calories
-		assertFalse(diet.isValid(Map.of("pasta",200.0,"pollo",300.0,"grana",50.0))); // 800+300+200 calories: too low!!
-		assertFalse(diet.isValid(Map.of("pasta",300.0,"pollo",300.0,"grana",200.0,"broccoli",300.0))); // 1200+300+800+105 calories: too much!!
-	}
-	
-	@org.junit.Test
-	public void testLowCarb() {
-		var diet = new LowCarbDiet();
-		this.fillProducts(diet);
-		assertTrue(diet.isValid(Map.of("pollo",1000.0))); // ok calories, ok carbs
-		assertFalse(diet.isValid(Map.of("pasta",200.0,"pollo",300.0,"grana",200.0))); // 800+300+800 calories, too much!
-		assertFalse(diet.isValid(Map.of("pasta",400.0))); // ok calories, but too much carbs
-	}
-	
+    private static void populate(final ThesesManagement t) {
+        t.registerStudent(1000, "Rossi"); // 5 students
+        t.registerStudent(1001, "Bianchi");
+        t.registerStudent(1002, "Verdi");
+        t.registerStudent(1003, "Neri");
+        t.registerStudent(1004, "Rosa");
+
+        // only 4 students have a thesis
+        t.registerThesis(1, "work on OOP", 1000);
+        t.registerThesis(2, "work on SISOP", 1001);
+        t.registerThesis(3, "work on ASD", 1002);
+        t.registerThesis(4, "work on INGSOFT", 1003);
+
+        // only 3 students have an approved thesis
+        t.thesisApproved(1);
+        t.thesisApproved(2);
+        t.thesisApproved(3);
+
+        // only 2 students have submitted a final version of the thesis
+        t.thesisSubmitted(1, "work on OOP");
+        t.thesisSubmitted(2, "survey on SISOP");
+
+        // final vote
+        t.thesisConcluded(1, 110);
+        t.thesisConcluded(2, 109);
+    }
+    
+    @org.junit.Test
+    public void testBasicManagement() {
+        ThesesManagement t = new ThesesManagementImpl();
+        populate(t);
+        // accesso alle tesi per id
+        assertEquals(t.thesis(1), new Pair<>("work on OOP", ThesesManagement.Status.CONCLUDED));
+        assertEquals(t.thesis(2), new Pair<>("survey on SISOP", ThesesManagement.Status.CONCLUDED));
+        assertEquals(t.thesis(3), new Pair<>("work on ASD", ThesesManagement.Status.APPROVED));
+        assertEquals(t.thesis(4), new Pair<>("work on INGSOFT", ThesesManagement.Status.TO_BE_APPROVED));
+        
+        // accesso alla mappa da studente a stato della tesi
+        assertEquals(t.statusByStudent().get("Rossi"), ThesesManagement.Status.CONCLUDED);
+        assertEquals(t.statusByStudent().get("Bianchi"), ThesesManagement.Status.CONCLUDED);
+        assertEquals(t.statusByStudent().get("Verdi"), ThesesManagement.Status.APPROVED);
+        assertEquals(t.statusByStudent().get("Neri"), ThesesManagement.Status.TO_BE_APPROVED);
+        assertEquals(t.statusByStudent().size(), 4);
+
+        // media dei voti delle tesi concluse, massimo errore 0.001
+        assertEquals(t.averageThesisScore(), 109.5, 0.001);
+    }
+
+    @org.junit.Test
+    public void optionalTestExceptions() {
+        ThesesManagement t = new ThesesManagementImpl();
+        t.registerStudent(1000, "Mirko");
+        t.registerStudent(1001, "Mario");
+        try {
+            t.registerStudent(1000, "Gino");
+            fail("can't reuse student id");
+        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
+            fail("wrong exception thrown");
+        }
+        t.registerThesis(1, "work on OOP", 1000);
+        try {
+            t.registerThesis(2, "work on SISOP", 1000);
+            fail("can't assign two thesis to the same student");
+        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
+            fail("wrong exception thrown");
+        }
+        try {
+            t.registerThesis(1, "work on SISOP", 1001);
+            fail("can't reuse a thesis id");
+        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
+            fail("wrong exception thrown");
+        }
+        t.thesisApproved(1);
+        try {
+            t.thesisApproved(1);
+            fail("not to be approved");
+        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
+            fail("wrong exception thrown");
+        }
+        t.thesisSubmitted(1, "final work on OOP");
+        try {
+            t.thesisSubmitted(1, "final work on OOP");
+            fail("not to be submitted");
+        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
+            fail("wrong exception thrown");
+        }
+        t.thesisConcluded(1, 110);
+        try {
+            t.thesisConcluded(1, 110);
+            fail("not to be concluded");
+        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
+            fail("wrong exception thrown");
+        }
+    }
+
 }
